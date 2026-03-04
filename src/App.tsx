@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-    <NeonAuthUIProvider authClient={authClient}>
+    <NeonAuthUIProvider defaultTheme="dark" authClient={authClient}>
       <AuthProvider>
       <BrowserRouter>
       <div className="min-h-screen flex flex-col">

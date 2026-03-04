@@ -4,12 +4,15 @@ import { authClient } from "../lib/auth";
 
 interface AuthContextType {
   user: User | null;
+  isLoading: boolean;
 }
 
 const  AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         async function loadUser(){
             try {
@@ -21,11 +24,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                 }
             } catch (error) {
                 setUser(null);
+            }finally{
+                setLoading(false);
             }
         }
         loadUser();
     }, [])
-  return <AuthContext.Provider value={{ user: user}}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user: user, isLoading: loading }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
