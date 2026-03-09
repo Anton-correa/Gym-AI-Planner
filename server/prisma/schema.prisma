@@ -12,3 +12,25 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model training_plans {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id String @db.Uuid
+  plan_json Json
+  plan_text String
+  version Int @default(1)
+  @@index([user_id], map: "idx_training_plans_user_id")
+  created_at DateTime @default(now()) @db.Timestamp(6)
+}
+
+model user_profiles {
+  user_id String @id @db.Uuid
+  goal String @db.VarChar(20)
+  experience String @db.VarChar(20)
+  days_per_week Int
+  session_length Int
+  equipment String @db.VarChar(20)
+  injuries String?
+  preferred_split String @db.VarChar(20)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+}
